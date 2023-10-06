@@ -7,7 +7,7 @@ use std::time::Duration;
 use indicatif::ProgressBar;
 
 
-/// Simple program to greet a person
+/// Simple rust portscanner
 #[derive(Parser, Debug)]
 #[command(author, version, about, long_about = None)]
 struct Args {
