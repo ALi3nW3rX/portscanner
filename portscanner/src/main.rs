@@ -4,6 +4,7 @@ use std::net::{IpAddr, SocketAddr};
 use std::sync::{Arc, Mutex};
 use std::thread;
 use std::time::Duration;
+use indicatif::ProgressBar;
 
 
 /// Simple program to greet a person
@@ -45,6 +46,7 @@ fn main() {
 
     let threads = args.threads;
     for _ in 0..threads {
+        let pb = ProgressBar::new(100);
         let scanports = scanports.clone();
         let ip = ip.clone();
         let timeout_duration = timeout_duration.clone();
@@ -53,7 +55,7 @@ fn main() {
                 let mut ports = scanports.lock().unwrap();
                 ports.pop_front()
             }{
-                if let Err(err) = portscan(ip, port, timeout_duration) {
+                if let Err(_) = portscan(ip, port, timeout_duration) {
                     let mut ports = scanports.lock().unwrap();
                     ports.push_back(port);
                 }
@@ -64,5 +66,6 @@ fn main() {
     for handle in handles {
         handle.join().unwrap();
     }
+    
 }
 
